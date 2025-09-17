@@ -1,12 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-const createAutor = async (req, res) => {
+const criarAutor = async (req, res) => {
     try {
-
         const nome = req.body;
-
-
         const autor = await prisma.autor.create({
             data : {
                 nome,
@@ -18,17 +15,17 @@ const createAutor = async (req, res) => {
     }
 }
 
-const getAllAutor = async (req,res) => {
+const listarAutores = async (req,res) => {
     try {
         const autores = await prisma.autor.findMany({
             include : {
                 livros : true,
             }
         })
-        res.status(201).json(autores);
+        res.status(200).json(autores);
     } catch (error) {
         res.status(400).json({error : error.message});
     }
 }
 
-export {createAutor, getAllAutor};
+export {criarAutor, listarAutores};

@@ -1,9 +1,9 @@
 import express from 'express'
 const livrosRouter = express.Router();
 
-import {createLivro, getAllLivros} from '../controllers/livrosController.js';
+import {criarLivro, listarLivros} from '../controllers/livrosController.js';
 
-livrosRouter.get('/createLivro', createLivro);
-livrosRouter.get('/livros', getAllLivros);
+livrosRouter.get('/criarLivro', criarLivro);
+livrosRouter.get('/livros', listarLivros);
 
 export default livrosRouter;

@@ -1,9 +1,9 @@
 import expresss from 'express'
 const emprestimoRouter = expresss.Router();
 
-import {createEmprestimo, getAllEmprestimo} from '../controllers/emprestimoController.js';
+import {criarEmprestimo, listarEmprestimos} from '../controllers/emprestimoController.js';
 
-emprestimoRouter.post('/createEmprestimo', createEmprestimo);
-emprestimoRouter.get('/emprestimos', getAllEmprestimo);
+emprestimoRouter.post('/crriarEmprestimo', criarEmprestimo);
+emprestimoRouter.get('/emprestimos', listarEmprestimos);
 
 export default emprestimoRouter;

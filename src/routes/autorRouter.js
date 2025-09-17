@@ -1,9 +1,9 @@
 import express from 'express'
 const autorRouter = express.Router();
 
-import {createAutor, getAllAutor} from '../controllers/autorController.js';
+import {criarAutor, listarAutores} from '../controllers/autorController.js';
 
-autorRouter.post('/createAutor', createAutor);
-autorRouter.get('/autores', getAllAutor);
+autorRouter.post('/criarAutor', criarAutor);
+autorRouter.get('/autores', listarAutores);
 
 export default autorRouter;
