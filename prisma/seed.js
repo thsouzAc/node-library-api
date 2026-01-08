@@ -1,43 +1,35 @@
 import { PrismaClient } from '@prisma/client'
+import bcrypt from 'bcrypt'
 
 const prisma = new PrismaClient()
 
 async function main() {
-  // usuarios
-  await prisma.user.createMany({
-    data: [
-      { nome: 'admin', email: 'admin@email.com', keyPass: 'admin123', role: 'admin' },
-      { nome: 'Thiago Silva', email: 'thiago@email.com', keyPass: '123456' },
-      { nome: 'Maria Oliveira', email: 'maria@email.com', keyPass: 'abcdef' },
-      { nome: 'João Souza', email: 'joao@email.com', keyPass: 'qwerty' },
-      { nome: 'Ana Costa', email: 'ana@email.com', keyPass: 'senha123' },
-      { nome: 'Carlos Pereira', email: 'carlos@email.com', keyPass: 'pass123' },
-      { nome: 'Fernanda Lima', email: 'fernanda@email.com', keyPass: 'lim@456' },
-      { nome: 'Rafael Mendes', email: 'rafael@email.com', keyPass: 'raf@2025' },
-      { nome: 'Juliana Santos', email: 'juliana@email.com', keyPass: 'jul#321' },
-      { nome: 'Pedro Henrique', email: 'pedro@email.com', keyPass: 'pedr0' },
-      { nome: 'Luciana Rocha', email: 'luciana@email.com', keyPass: 'luc@pass' },
-    ],
-    skipDuplicates: true, // ✅ ignora emails já existentes
-  })
+  const usersRaw = [
+    { nome: 'admin', email: 'admin@email.com', senha: 'admin123', role: 'admin' },
+    { nome: 'Thiago Silva', email: 'thiago@email.com', senha: '123456' },
+    { nome: 'Maria Oliveira', email: 'maria@email.com', senha: 'abcdef' },
+    { nome: 'João Souza', email: 'joao@email.com', senha: 'qwerty' },
+    { nome: 'Ana Costa', email: 'ana@email.com', senha: 'senha123' },
+    { nome: 'Carlos Pereira', email: 'carlos@email.com', senha: 'pass123' },
+    { nome: 'Fernanda Lima', email: 'fernanda@email.com', senha: 'lim@456' },
+    { nome: 'Rafael Mendes', email: 'rafael@email.com', senha: 'raf@2025' },
+    { nome: 'Juliana Santos', email: 'juliana@email.com', senha: 'jul#321' },
+    { nome: 'Pedro Henrique', email: 'pedro@email.com', senha: 'pedr0' },
+    { nome: 'Luciana Rocha', email: 'luciana@email.com', senha: 'luc@pass' },
+  ]
 
-/*
-  for (const u of usersData) {
-    const hashedPassword = await bcrypt.hash(u.password, 10);
+  for (const u of usersRaw) {
     await prisma.user.upsert({
       where: { email: u.email },
       update: {},
       create: {
-        name: u.name,
+        nome: u.nome,
         email: u.email,
-        password: hashedPassword,
-        role: u.role || "user",
+        keyPass: await bcrypt.hash(u.senha, 10),
+        role: u.role ?? 'user',
       },
-    });
+    })
   }
-
-*/
-
 
   const users = await prisma.user.findMany()
 
