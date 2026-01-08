@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 
-const criarLivro = async (req, res) => {
+const createBook = async (req, res) => {
     try {
         const {nome, dataPublic, autorID} = req.body;
 
@@ -16,7 +16,7 @@ const criarLivro = async (req, res) => {
     }
 }
 
-const listarLivros = async (req, res) => {
+const getAllBooks = async (req, res) => {
     try {
         const livros = await prisma.livro.findMany({
             include : {
@@ -29,4 +29,7 @@ const listarLivros = async (req, res) => {
     }
 }
 
-export {criarLivro, listarLivros};
+export {
+    createBook, 
+    getAllBooks
+};

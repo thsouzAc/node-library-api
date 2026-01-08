@@ -21,6 +21,24 @@ async function main() {
     skipDuplicates: true, // ✅ ignora emails já existentes
   })
 
+/*
+  for (const u of usersData) {
+    const hashedPassword = await bcrypt.hash(u.password, 10);
+    await prisma.user.upsert({
+      where: { email: u.email },
+      update: {},
+      create: {
+        name: u.name,
+        email: u.email,
+        password: hashedPassword,
+        role: u.role || "user",
+      },
+    });
+  }
+
+*/
+
+
   const users = await prisma.user.findMany()
 
   // autores e livros

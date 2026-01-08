@@ -2,20 +2,20 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 
-const criarEmprestimo = async (req, res) => {
+const createLoan = async (req, res) => {
     try {
         const {userId, livroId} = req.body;
 
-        const agora = new Date();
+        const now = new Date();
         const devolucao = new Date();
 
-        devolucao.setDate(agora.getDate() + 20); // data de devolução = 20 dias
+        devolucao.setDate(now.getDate() + 20); // data de devolução = 20 dias
 
         const emprestimo = await prisma.emprestimo.create({
             data : {
                 userId,
                 livroId,
-                dataEmprestimoAt: agora,
+                dataEmprestimoAt: now,
                 dataDevolucaoAt : devolucao,
             },
         });
@@ -25,7 +25,7 @@ const criarEmprestimo = async (req, res) => {
     }
 }
 
-const listarEmprestimos = async (req, res) => {
+const getAllLoan = async (req, res) => {
     try {
         const emprestimos = await prisma.emprestimo.findMany({
             include : {
@@ -39,4 +39,7 @@ const listarEmprestimos = async (req, res) => {
     }
 }
 
-export {criarEmprestimo, listarEmprestimos};
+export {
+    createLoan,
+    getAllLoan
+};

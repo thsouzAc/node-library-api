@@ -1,8 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import autorRouter from './routes/autorRouter.js';
-import emprestimoRouter from './routes/emprestimoRouter.js';
-import livrosRouter from './routes/livrosRouter.js';
+import autorRouter from './routes/authorRouter.js';
+import emprestimoRouter from './routes/loanRouter.js';
+import livrosRouter from './routes/bookRouter.js';
 import userRouter from './routes/userRouter.js';
 
 

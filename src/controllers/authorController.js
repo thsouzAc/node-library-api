@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-const criarAutor = async (req, res) => {
+const createAuthor = async (req, res) => {
     try {
         const nome = req.body;
         const autor = await prisma.autor.create({
@@ -15,7 +15,7 @@ const criarAutor = async (req, res) => {
     }
 }
 
-const listarAutores = async (req,res) => {
+const getAllAuthors = async (req,res) => {
     try {
         const autores = await prisma.autor.findMany({
             include : {
@@ -28,4 +28,7 @@ const listarAutores = async (req,res) => {
     }
 }
 
-export {criarAutor, listarAutores};
+export {
+    createAuthor, 
+    getAllAuthors
+};
