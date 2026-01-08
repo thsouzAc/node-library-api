@@ -84,6 +84,28 @@ const getMe = async (req, res) => {
   }
 };
 
+const getIdUser = async ( req, res ) => {
+  try {
+    const { id } = req.params;
+    const user = await prisma.user.findUnique({
+      where : { id : Number(id)},
+      select : {
+        id : true,
+        nome : true,
+        email : true,
+        role : true,
+        createdAt : true,
+        emprestimos : true,
+      }
+    });
+    if (!user) { return res.status(404).json({ error : "Id user não encontrado"})};
+    return res.status(200).json(user);
+  }catch ( error ) {
+    res.status(400).json({ error : error.message });
+  }
+};
+
+
 const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -102,6 +124,7 @@ export {
   createUser,
   createAdminUser,
   getAllUsers,
+  getIdUser,
   getMe,
   deleteUser,
 };
