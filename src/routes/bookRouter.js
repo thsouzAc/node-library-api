@@ -3,7 +3,10 @@ const livrosRouter = express.Router();
 
 import {createBook, getAllBooks} from '../controllers/bookController.js';
 
-livrosRouter.get('/criarLivro', createBook);
+
+// rotas privadas
+
 livrosRouter.get('/livros', getAllBooks);
+livrosRouter.get('/criarLivro', createBook);
 
 export default livrosRouter;

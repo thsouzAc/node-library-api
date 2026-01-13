@@ -1,4 +1,4 @@
-import { verifyToken } from "../services/authService";
+import { verifyToken } from "../services/authService.js";
 
 export const authMiddleware = ( req, res, next ) => {
 
@@ -9,7 +9,7 @@ export const authMiddleware = ( req, res, next ) => {
 
     try {
         const decoded = verifyToken(token);
-        req.userId = decoded.userId;
+        req.userId = decoded.id;
         req.userRole = decoded.role;
         next();
     } catch (error) {
