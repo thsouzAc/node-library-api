@@ -14,22 +14,53 @@ const createBook = async (req, res) => {
     } catch (error) {
         res.status(400).json({error : error.message});
     }
-}
+};
 
 const getAllBooks = async (req, res) => {
     try {
         const livros = await prisma.livro.findMany({
             include : {
                 emprestimos : true,
+                autor : true,
             },
         });
         res.status(200).json(livros);
     } catch (error) {
         res.status(400).json({error : error.message});
     }
+};
+
+const getIdBook = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const book = await prisma.livro.findUnique({
+            where : {id : Number(id)},
+            include : {
+                autor : true,
+            }
+        })
+        if (!book) {return res.status(404).json({error : "Livro não encontrado"})};
+        res.status(200).json(book)
+    } catch ( error ) {
+        res.status(400).json({error : error.message});
+    }
+};
+
+const deleteBook = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const book = await prisma.livro.delete({
+            where : { id : Number(id)},
+        });
+        res.status(200).json({message : "Livro deletado", book});
+    } catch ( error ) {
+        res.status(400).json({error : error.message});
+    }
 }
 
 export {
     createBook, 
-    getAllBooks
+    getAllBooks,
+    getIdBook,
+    deleteBook
 };
