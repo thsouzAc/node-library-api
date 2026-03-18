@@ -60,7 +60,32 @@ const createAdminUser = async (req, res) => {
 const getAllUsers = async (req, res) => {
   try {
     const users = await prisma.user.findMany({
-      include: { emprestimos: true },
+      select : {
+        id : true,
+        nome : true,
+        email : true,
+        createdAt : true,
+        role : true,
+        emprestimos : {
+          select : {
+            id : true,
+            dataEmprestimoAt : true,
+            dataDevolucaoAt : true,
+            livro : {
+              select : {
+                id : true,
+                nome : true,
+                autor : {
+                  select : {
+                    id : true,
+                    nome : true,
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     });
 
     res.status(200).json(users);
@@ -74,7 +99,30 @@ const getMe = async (req, res) => {
   try {
     const user = await prisma.user.findUnique({
       where: { id: req.userId },
-      include: { emprestimos: true },
+      select : {
+        nome : true,
+        email : true,
+        createdAt : true,
+        emprestimos : {
+          select : {
+            id : true,
+            dataEmprestimoAt : true,
+            dataDevolucaoAt : true,
+            livro : {
+              select : {
+                id : true,
+                nome : true,
+                autor : {
+                  select : {
+                    id : true,
+                    nome : true,
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
     });
 
     if (!user) {
@@ -94,13 +142,31 @@ const getIdUser = async (req, res) => {
 
     const user = await prisma.user.findUnique({
       where: { id: Number(id) },
-      select: {
-        id: true,
-        nome: true,
-        email: true,
-        role: true,
-        createdAt: true,
-        emprestimos: true,
+      select : {
+        id : true,
+        nome : true,
+        email : true,
+        createdAt : true,
+        role : true,
+        emprestimos : {
+          select : {
+            id : true,
+            dataEmprestimoAt : true,
+            dataDevolucaoAt : true,
+            livro : {
+              select : {
+                id : true,
+                nome : true,
+                autor : {
+                  select : {
+                    id : true,
+                    nome : true,
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     });
 

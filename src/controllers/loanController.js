@@ -28,9 +28,29 @@ const createLoan = async (req, res) => {
 const getAllLoan = async (req, res) => {
     try {
         const emprestimos = await prisma.emprestimo.findMany({
-            include : {
-                user : true,
-                livro : true,
+            select : {
+                id : true,
+                dataEmprestimoAt : true,
+                dataDevolucaoAt : true,
+                user : {
+                    select : {
+                        id : true,
+                        nome : true,
+                        email : true,
+                    }
+                },
+                livro : {
+                    select : {
+                        id : true,
+                        nome : true,
+                        autor : {
+                            select : {
+                                id : true,
+                                nome : true
+                            }
+                        }
+                    }
+                }
             }
         });
         res.status(200).json(emprestimos);
@@ -43,9 +63,29 @@ const getIdLoan = async ( req, res ) => {
         const {id} = req.params;
         const loan = await prisma.emprestimo.findUnique({
             where : { id : Number(id)},
-            include : {
-                user : true,
-                livro : true,
+            select : {
+                id : true,
+                dataEmprestimoAt : true,
+                dataDevolucaoAt : true,
+                user : {
+                    select : {
+                        id : true,
+                        nome : true,
+                        email : true,
+                    }
+                },
+                livro : {
+                    select : {
+                        id : true,
+                        nome : true,
+                        autor : {
+                            select : {
+                                id : true,
+                                nome : true
+                            }
+                        }
+                    }
+                }
             }
         })
         if (!loan) {return res.status(404).json({error : "Emprestimo não encontrado"})};

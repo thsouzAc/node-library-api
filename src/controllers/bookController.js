@@ -19,10 +19,17 @@ const createBook = async (req, res) => {
 const getAllBooks = async (req, res) => {
     try {
         const livros = await prisma.livro.findMany({
-            include : {
-                emprestimos : true,
-                autor : true,
-            },
+            select : {
+                id :true,
+                nome : true,
+                dataPublic : true,
+                autor : {
+                    select : {
+                        id : true,
+                        nome : true
+                    }
+                }
+            }
         });
         res.status(200).json(livros);
     } catch (error) {
@@ -35,8 +42,16 @@ const getIdBook = async (req, res) => {
         const {id} = req.params;
         const book = await prisma.livro.findUnique({
             where : {id : Number(id)},
-            include : {
-                autor : true,
+            select : {
+                id : true,
+                nome : true,
+                dataPublic : true,
+                autor : {
+                    select : {
+                        id : true,
+                        nome : true
+                    }
+                }
             }
         })
         if (!book) {return res.status(404).json({error : "Livro não encontrado"})};
